@@ -1,6 +1,6 @@
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.*;
-import java.util.Arrays;
 
 class Wektory {
 	public static void main(String[] args){
@@ -10,34 +10,57 @@ class Wektory {
 	boolean equal =true;
 	do{
 		try{
-			System.out.println("Podaj wektor nr 1:\n");
+			System.out.println("Podaj wektor nr 1(jako separatora użyj ',' ):\n");
 			wektory[0]=odczyt.nextLine();
-			System.out.println("Podaj wektor nr 2:\n");
+			System.out.println("Podaj wektor nr 2 (jako separatora użyj ',' ):\n");
 			wektory[1]=odczyt.nextLine();
-			//TODO wektor[0]=CONVERT(wektory[1]); itd
-
+			wektor[0]=toInt(wektory[0]);
+			wektor[1]=toInt(wektory[1]);
 			if(wektor[0].length!=wektor[1].length){
-			//System.out.println("\n "+wektor[0].length+" "+wektor[1].length);
-			//WektoryRoznejDlugosciException e=new WektoryRoznejDlugosciException(wektory[0], wektory[1],"WektoryRoznejDlugosciException");
-			//throw e;
+			System.out.println("\n "+wektor[0].length+" "+wektor[1].length);
+			WektoryRoznejDlugosciException e=new WektoryRoznejDlugosciException(wektor[0],wektor[1],"WektoryRoznejDlugosciException");
+			throw e;
 			}
 		else equal=false;
 		}catch(Exception e) {
 			System.out.println(e.toString());
 		}
 	}while(equal);
-	int[] wynik=new int[wektor[0].length];
+	try{
+	int[] resultAdd=new int[wektor[0].length];
 	System.out.println("\n "+Arrays.toString(wektor[0]));
 	System.out.println("\n "+Arrays.toString(wektor[1]));
-	//TODO wynik=add(wektor[0],wektor[1]);
-	toFile("wynik dodawania.txt",wynik);
+	resultAdd=addVectors(wektor[0],wektor[1]);
+	toFile("wynik dodawania.txt",resultAdd);
+	}catch(Exception ex) {
+		System.out.println(ex.toString());
+	}
+	System.out.println("Wynik dodawania wektorów zapisano do pliku");
+	}
+	
+	private static int[] addVectors(int[] wektor1,int[] wektor2) {
+		int[] resultAddVectors=new int [wektor1.length];
+		for(int i=0;i<wektor1.length;i++){
+			resultAddVectors[i]=wektor1[i]+wektor2[i];
+		}
+		return resultAddVectors;
 	}
 
-	public static void toInt(String wektor){
-	String [] extracted = wektor.split(",");
-	
-	}
-	
+	public static int[] toInt(String wektor){
+		String [] extracted = wektor.split(",");
+		int[] resultToInt=new int[extracted.length];
+		int i=0;
+		for(int j=0;j<extracted.length;j++){
+			if(isNumeric(extracted[j])){
+				resultToInt[i]=Integer.parseInt(extracted[j]);
+				i++;
+			}
+		}
+		int[] rightResult=new int[i];
+		for(int j=0;j<i;j++)
+			rightResult[j]=resultToInt[j];
+		return rightResult;
+	}	
 	public static void toFile(String filename,int[] wektor) {
 	try{
 		String[] napis=new String[wektor.length];
@@ -76,7 +99,7 @@ class WektoryRoznejDlugosciException extends Exception{
 		message=info;
 		lenWektor1=wektor1.length;
 		lenWektor2=wektor2.length;
-		System.out.println(info+"wektor1="+wektor1.length+" wektor2="+wektor2.length+"\n");
+		System.out.println(info+" wektor1="+wektor1.length+" wektor2="+wektor2.length+"\n");
 	}
 	public String getMessage(){
 	String exceptionMessage;
@@ -84,4 +107,3 @@ class WektoryRoznejDlugosciException extends Exception{
 		return exceptionMessage;
 	}
 }
-/*Napisz program proszacy o podanie 2 wektorow. Koniec wektora oznacza sie za pomoca wcisniecia klawisza enter. Jezeli podany ciag nie jest liczba, jest ignorowany. Nastepnie nalezy sprobowac dodac wektory, jezeli sa rownej dlugosci. Jezeli nie, sa, rzucany jest wlasny wyjatek WektoryRoznejDlugosciException, za pomoca ktorego mozna podac a nastepnie odczytac dlugosci tych wektorow. Jezeli sa rownej dlugosci, wynik dodawania zapisywany jest do pliku. Jezeli nie sa rownej dlugosci, uzytkownik jest proszony o ponowne wprowadzenie tych wektorow*/
