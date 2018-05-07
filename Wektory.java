@@ -17,9 +17,9 @@ class Wektory {
 			//TODO wektor[0]=CONVERT(wektory[1]); itd
 
 			if(wektor[0].length!=wektor[1].length){
-			System.out.println("\n "+wektor[0].length+" "+wektor[1].length);
-			WektoryRoznejDlugosciException e=new WektoryRoznejDlugosciException(wektory[0], wektory[1],"WektoryRoznejDlugosciException");
-			throw e;
+			//System.out.println("\n "+wektor[0].length+" "+wektor[1].length);
+			//WektoryRoznejDlugosciException e=new WektoryRoznejDlugosciException(wektory[0], wektory[1],"WektoryRoznejDlugosciException");
+			//throw e;
 			}
 		else equal=false;
 		}catch(Exception e) {
@@ -33,14 +33,22 @@ class Wektory {
 	toFile("wynik dodawania.txt",wynik);
 	}
 
+	public static void toInt(String wektor){
+	String [] extracted = wektor.split(",");
+	
+	}
+	
 	public static void toFile(String filename,int[] wektor) {
 	try{
-	String[] napis=new String[wektor.length];
-	StringBuilder sb=new StringBuilder();
-	for(int i=0;i<wektor.length;i++){
-	napis[i]=Integer.toString(wektor[i]);
-	//TODO
-	}
+		String[] napis=new String[wektor.length];
+		StringBuilder sb=new StringBuilder();
+		for(int i=0;i<wektor.length;i++){
+			napis[i]=Integer.toString(wektor[i]);
+			sb.append(napis[i]);
+			if(i!=wektor.length-1)
+			sb.append(",");
+		}
+	
 	File fileIo=new File(filename);
 		fileIo.createNewFile();
 		PrintWriter zapis = new PrintWriter(filename);
@@ -50,6 +58,14 @@ class Wektory {
 		System.out.println(e.getMessage());
 		System.out.println(e.toString());
 	}
+	}
+	public static boolean isNumeric(String character){
+	try{
+		int c=Integer.parseInt(character);
+	}catch(NumberFormatException nfe){
+		return false;	
+	}
+	return true;
 	}
 }
 
@@ -68,6 +84,4 @@ class WektoryRoznejDlugosciException extends Exception{
 		return exceptionMessage;
 	}
 }
-
-
 /*Napisz program proszacy o podanie 2 wektorow. Koniec wektora oznacza sie za pomoca wcisniecia klawisza enter. Jezeli podany ciag nie jest liczba, jest ignorowany. Nastepnie nalezy sprobowac dodac wektory, jezeli sa rownej dlugosci. Jezeli nie, sa, rzucany jest wlasny wyjatek WektoryRoznejDlugosciException, za pomoca ktorego mozna podac a nastepnie odczytac dlugosci tych wektorow. Jezeli sa rownej dlugosci, wynik dodawania zapisywany jest do pliku. Jezeli nie sa rownej dlugosci, uzytkownik jest proszony o ponowne wprowadzenie tych wektorow*/
